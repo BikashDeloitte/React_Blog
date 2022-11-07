@@ -1,17 +1,30 @@
 import React from "react";
-import Card from "../Card/Card";
-import NavBar from "../NavBar/NavBar";
+import {
+  Card,
+  CardBody,
+  CardTitle,
+  ListGroup,
+  ListGroupItem,
+} from "reactstrap";
 
 function MainContainer() {
   return (
     <div>
       <h1>MainContainer</h1>
       <Card
-        featured="Car"
-        item1="Lamborghini Diablo"
-        item2="Ford Raptor"
-        item3="Ferrari Testarossa"
-      ></Card>
+        style={{
+          width: "200px",
+        }}
+      >
+        <CardBody>
+          <CardTitle>Cars</CardTitle>
+        </CardBody>
+        <ListGroup flush>
+          <ListGroupItem>Lamborghini Diablo</ListGroupItem>
+          <ListGroupItem>Ford Raptor</ListGroupItem>
+          <ListGroupItem>Ferrari Testarossa</ListGroupItem>
+        </ListGroup>
+      </Card>
     </div>
   );
 }

@@ -1,10 +1,11 @@
 import "./App.css";
-import MainContainer from "./components/Dashboard/MainContainer";
-import SignUp from "./components/SignUp/SignUp";
+
+import SignUp from "./components/signUp/SignUp";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-import LogIn from "./components/LogIn/LogIn";
-import NavBar from "./components/NavBar/NavBar";
-import Footer from "./components/Footer/Footer";
+import NavBar from "./components/navBar/NavBar";
+import Footer from "./components/footer/Footer";
+import MainContainer from "./components/dashboard/MainContainer";
+import LogIn from "./components/logIn/LogIn";
 
 function App() {
   return (

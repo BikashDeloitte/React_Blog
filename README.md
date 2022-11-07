@@ -74,3 +74,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 -> for routing
 npm install react-router-dom@6
+-> for api
+npm install axios
+-> popup dialog box
+npm install react-toastify
