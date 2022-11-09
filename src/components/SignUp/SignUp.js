@@ -59,6 +59,10 @@ function SignUp() {
       .then((resp) => {
         toast.success("Register completed");
         resetData();
+        setError({
+          errors: [],
+          isError: false,
+        });
       })
       .catch((error) => {
         toast.error(

@@ -8,6 +8,8 @@ import MainContainer from "./components/dashboard/MainContainer";
 import LogIn from "./components/logIn/LogIn";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import PrivateRoute from "./PrivateRouto";
+import UserDashboard from "./components/dashboard/UserDashboard";
 
 function App() {
   return (
@@ -19,8 +21,11 @@ function App() {
       <ToastContainer />
       <Routes>
         <Route path="/" element={<MainContainer />} />
-        <Route path="login" element={<LogIn />} />
-        <Route path="signup" element={<SignUp />} />
+        <Route path="/login" element={<LogIn />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/user" element={<PrivateRoute />}>
+          <Route path="dashboard" element={<UserDashboard />} />
+        </Route>
       </Routes>
       <Footer></Footer>
     </BrowserRouter>

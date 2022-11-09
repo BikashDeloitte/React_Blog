@@ -14,6 +14,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import { doLoggedIn } from "../../auth/UserDataAuth";
 import { LoginService } from "../../service/LoginService";
 
 function LogIn() {
@@ -60,8 +61,10 @@ function LogIn() {
     //send login data to api for token
     token = LoginService(loginData)
       .then((response) => {
+
+        //storing response(token) in local storage
+        doLoggedIn(response)
         toast.success("login success");
-        console.log(response);
       })
       .catch((error) => {
         console.log("error --=> {0}", error);
