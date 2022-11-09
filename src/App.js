@@ -6,6 +6,8 @@ import NavBar from "./components/navBar/NavBar";
 import Footer from "./components/footer/Footer";
 import MainContainer from "./components/dashboard/MainContainer";
 import LogIn from "./components/logIn/LogIn";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -14,6 +16,7 @@ function App() {
       <br />
       <br />
       <br />
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<MainContainer />} />
         <Route path="login" element={<LogIn />} />

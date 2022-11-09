@@ -1,4 +1,5 @@
-import React from "react";
+import { React, useState, useEffect } from "react";
+import { toast } from "react-toastify";
 import {
   Card,
   CardBody,
@@ -13,8 +14,76 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import { LoginService } from "../../service/LoginService";
 
 function LogIn() {
+  var token;
+  //state for email and password
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
+
+  //state for errors
+  const [error, setError] = useState({
+    errors: {},
+    isError: false,
+  });
+
+  //reset data
+  const resetData = () => {
+    setLoginData({
+      email: "",
+      password: "",
+    });
+  };
+
+  //blinding of data
+  const dataHandleChange = (event, field) => {
+    // ...data mean take rest of data same as before
+    //[] to make field dynamic
+    setLoginData({ ...loginData, [field]: event.target.value });
+  };
+
+  //sending data to api
+  const onSumbitData = (event) => {
+    //to prevent from sending empty data
+    event.preventDefault();
+    console.log(loginData);
+
+    //validation of email and password
+    if (loginData.email.trim() == "" || loginData.password.trim() == "") {
+      toast.error("Required email or password");
+      return;
+    }
+
+    //send login data to api for token
+    token = LoginService(loginData)
+      .then((response) => {
+        toast.success("login success");
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log("error --=> {0}", error);
+        if (error.response.data.status == 400) {
+          toast.error("password is wrong, please check");
+        } else if (error.response.data.status == 404) {
+          toast.error("Couldn't find email");
+        } else {
+          toast.error("something went wrong");
+        }
+
+        setError({
+          errors: error,
+          isError: true,
+        });
+      });
+  };
+
+  useEffect(() => {
+    console.log(loginData);
+  }, [loginData]);
+
   return (
     <div>
       <Container>
@@ -27,11 +96,17 @@ function LogIn() {
               </CardHeader>
               <CardBody>
                 {/* creating form */}
-                <Form>
+                <Form onSubmit={(e) => onSumbitData(e)}>
                   {/* email field */}
                   <FormGroup>
                     <Label for="email">Email</Label>
-                    <Input id="email" type="email" placeholder="enter email" />
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="enter email"
+                      value={loginData.email}
+                      onChange={(e) => dataHandleChange(e, "email")}
+                    />
                   </FormGroup>
 
                   {/* password field */}
@@ -41,6 +116,8 @@ function LogIn() {
                       id="password"
                       type="password"
                       placeholder="enter password"
+                      value={loginData.password}
+                      onChange={(e) => dataHandleChange(e, "password")}
                     />
                   </FormGroup>
 
@@ -49,7 +126,11 @@ function LogIn() {
                     <Button outline color="light">
                       Login
                     </Button>
-                    <Button type="reset" className="ms-2">
+                    <Button
+                      type="reset"
+                      className="ms-2"
+                      onClick={() => resetData()}
+                    >
                       Reset
                     </Button>
                   </Container>

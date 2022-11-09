@@ -1,6 +1,6 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState, React } from "react";
+import { toast } from "react-toastify";
+
 import {
   Card,
   CardBody,
@@ -14,10 +14,12 @@ import {
   Button,
   Row,
   Col,
+  FormFeedback,
 } from "reactstrap";
 import { SignUpService } from "../../service/SignUpService";
 
 function SignUp() {
+  //state for user data(regiration)
   const [data, setData] = useState({
     firstName: "",
     middleName: "",
@@ -27,8 +29,9 @@ function SignUp() {
     about: "",
   });
 
+  //state for errors
   const [error, setError] = useState({
-    error: {},
+    errors: {},
     isError: false,
   });
 
@@ -45,15 +48,31 @@ function SignUp() {
     event.preventDefault();
     console.log(data);
 
+    //prevent from sumbitting if there is error/invalid data
+    // if (error.isError) {
+    //   toast.error("form data is invalid, please correct it before submission");
+    //   setError({ ...error, isError: false });
+    //   return;
+    // }
+
     //calling api using service(axios)
     SignUpService(data)
       .then((resp) => {
         console.log(resp);
         console.log("successful");
+        toast.success("Register completed");
+        resetData();
       })
       .catch((error) => {
         console.log(error);
         console.log("error");
+        toast.error(
+          "form data is invalid, please correct it before submission"
+        );
+        setError({
+          errors: error,
+          isError: true,
+        });
       });
   };
 
@@ -68,10 +87,6 @@ function SignUp() {
       about: "",
     });
   };
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   return (
     <div>
@@ -97,7 +112,13 @@ function SignUp() {
                       placeholder="enter first name"
                       onChange={(e) => dataHandleChange(e, "firstName")}
                       value={data.firstName}
+                      invalid={
+                        error.errors?.response?.data?.firstName ? true : false
+                      }
                     />
+                    <FormFeedback>
+                      {error.errors?.response?.data?.firstName}
+                    </FormFeedback>
                   </FormGroup>
 
                   {/* middle name field */}
@@ -121,7 +142,13 @@ function SignUp() {
                       placeholder="enter last name"
                       onChange={(e) => dataHandleChange(e, "lastName")}
                       value={data.lastName}
+                      invalid={
+                        error.errors?.response?.data?.lastName ? true : false
+                      }
                     />
+                    <FormFeedback>
+                      {error.errors?.response?.data?.lastName}
+                    </FormFeedback>
                   </FormGroup>
 
                   {/* email field */}
@@ -133,7 +160,13 @@ function SignUp() {
                       placeholder="enter email"
                       onChange={(e) => dataHandleChange(e, "email")}
                       value={data.email}
+                      invalid={
+                        error.errors?.response?.data?.email ? true : false
+                      }
                     />
+                    <FormFeedback>
+                      {error.errors?.response?.data?.email}
+                    </FormFeedback>
                   </FormGroup>
 
                   {/* password field */}
@@ -145,7 +178,13 @@ function SignUp() {
                       placeholder="enter password"
                       onChange={(e) => dataHandleChange(e, "password")}
                       value={data.password}
+                      invalid={
+                        error.errors?.response?.data?.password ? true : false
+                      }
                     />
+                    <FormFeedback>
+                      {error.errors?.response?.data?.password}
+                    </FormFeedback>
                   </FormGroup>
 
                   {/* about field */}
