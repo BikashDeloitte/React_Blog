@@ -46,7 +46,6 @@ function SignUp() {
   const onSumbitData = (event) => {
     //to prevent from sending empty data
     event.preventDefault();
-    console.log(data);
 
     //prevent from sumbitting if there is error/invalid data
     // if (error.isError) {
@@ -58,14 +57,10 @@ function SignUp() {
     //calling api using service(axios)
     SignUpService(data)
       .then((resp) => {
-        console.log(resp);
-        console.log("successful");
         toast.success("Register completed");
         resetData();
       })
       .catch((error) => {
-        console.log(error);
-        console.log("error");
         toast.error(
           "form data is invalid, please correct it before submission"
         );
