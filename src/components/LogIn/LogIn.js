@@ -1,4 +1,5 @@
 import { React, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
   Card,
@@ -19,6 +20,7 @@ import { LoginService } from "../../service/LoginService";
 
 function LogIn() {
   var token;
+  const navigate = useNavigate();
   //state for email and password
   const [loginData, setLoginData] = useState({
     email: "",
@@ -61,9 +63,12 @@ function LogIn() {
     //send login data to api for token
     token = LoginService(loginData)
       .then((response) => {
-
         //storing response(token) in local storage
-        doLoggedIn(response)
+        doLoggedIn(response);
+
+        //to nagivate/redirect login page to user dashboard
+        navigate("/user/dashboard");
+
         toast.success("login success");
       })
       .catch((error) => {

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 //to avoid reload of paper
-import { NavLink as ReactRouteLink } from "react-router-dom";
+import { NavLink as ReactRouteLink, useNavigate } from "react-router-dom";
 import {
   Collapse,
   Navbar,
@@ -14,47 +15,87 @@ import {
   DropdownMenu,
   DropdownItem,
 } from "reactstrap";
+import { currentUser, doLoggedOut, isLoggedIn } from "../../auth/UserDataAuth";
 
 function NavBar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState(currentUser());
+  const [isLogin, setIsLogin] = useState(false);
+  const navigate = useNavigate();
 
   const toggle = () => setIsOpen(!isOpen);
 
+  //logout redirect and clear local storage
+  const doLogOut = () => {
+    doLoggedOut();
+    setIsLogin(false);
+    navigate("/");
+  };
+
+  //for checking and getting user data for login/logout
+  useEffect(() => {
+    setUser(currentUser());
+    setIsLogin(isLoggedIn());
+  }, [isLogin]);
+
   return (
     <div>
-      <Navbar color="dark" expand="md" dark fixed="top">
+      <Navbar color="dark" expand="md" dark fixed="top" className="px-3">
         <NavbarBrand tag={ReactRouteLink} to="/">
           My Blog
         </NavbarBrand>
+
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="me-auto" navbar>
             <NavItem>
-              <NavLink tag={ReactRouteLink} to="/components/">
-                Components
+              <NavLink tag={ReactRouteLink} to="/home">
+                Home
               </NavLink>
             </NavItem>
             <NavItem>
-              <NavLink tag={ReactRouteLink} to="login">
-                Login
+              <NavLink tag={ReactRouteLink} to="/about">
+                about
               </NavLink>
             </NavItem>
-            <NavItem>
-              <NavLink tag={ReactRouteLink} to="signup">
-                SignUp
-              </NavLink>
-            </NavItem>
+
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
                 more
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem>Option 1</DropdownItem>
-                <DropdownItem>Option 2</DropdownItem>
+                <DropdownItem>Service</DropdownItem>
+                <DropdownItem>Contact us</DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem>Reset</DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
+          </Nav>
+          <Nav navbar>
+            {isLogin && (
+              <>
+                <NavItem>
+                  <NavLink onClick={() => doLogOut()}>Logout</NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink>{user.email}</NavLink>
+                </NavItem>
+              </>
+            )}
+            {!isLogin && (
+              <>
+                <NavItem>
+                  <NavLink tag={ReactRouteLink} to="login">
+                    Login
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={ReactRouteLink} to="signup">
+                    SignUp
+                  </NavLink>
+                </NavItem>
+              </>
+            )}
           </Nav>
         </Collapse>
       </Navbar>
