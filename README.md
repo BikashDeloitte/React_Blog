@@ -69,12 +69,11 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
-
-
-
 -> for routing
 npm install react-router-dom@6
 -> for api
 npm install axios
 -> popup dialog box
 npm install react-toastify
+-> to in rich text like font, underline, bold,etc
+npm install jodit-react

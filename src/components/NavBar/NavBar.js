@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import { React, useEffect, useState } from "react";
 //to avoid reload of paper
 import { NavLink as ReactRouteLink, useNavigate } from "react-router-dom";
 import {
@@ -78,7 +77,9 @@ function NavBar() {
                   <NavLink onClick={() => doLogOut()}>Logout</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink>{user.email}</NavLink>
+                  <NavLink tag={ReactRouteLink} to="/user/dashboard">
+                    {user.email}
+                  </NavLink>
                 </NavItem>
               </>
             )}

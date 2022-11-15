@@ -1,8 +1,12 @@
 import React from "react";
+import { Container } from "reactstrap";
+import AddPost from "../post/AddPost";
 const UserDashboard = () => {
-    return (<div>
-        <h2>UserDashboard in here</h2>
-    </div>)
+  return (
+    <Container>
+      <AddPost />
+    </Container>
+  );
 };
 
 export default UserDashboard;
