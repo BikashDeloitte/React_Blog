@@ -1,4 +1,5 @@
-import { React, useEffect, useState } from "react";
+import { React, useEffect, useRef, useState } from "react";
+import JoditEditor from "jodit-react";
 import {
   Card,
   CardBody,
@@ -24,6 +25,12 @@ function AddPost() {
   //store dynamic category (at starting it is a empty array)
   const [categories, setCategories] = useState([]);
 
+  //for rich text (JoditEditor)
+  const editor = useRef(null);
+
+  //store the rich text data
+  const [content, setContent] = useState("");
+
   //rest the input data in post
   const resetData = () => {
     setNewPost({
@@ -33,11 +40,16 @@ function AddPost() {
     });
   };
 
+  const contextUpdate = (context) => {
+    setContent(context);
+  };
+
   //get dynamic post category (empty [] mean call once at starting)
   useEffect(() => {
     PostCategory()
       .then((data) => {
         setCategories(data);
+        console.log(categories);
       })
       .catch((error) => {
         console.log(error);
@@ -62,10 +74,12 @@ function AddPost() {
             {/* post cotent */}
             <FormGroup>
               <Label for="content">Post Content</Label>
-              <Input
-                id="content"
-                type="textarea"
-                placeholder="enter post content"
+
+              {/* joditEditor libary is use for in rich text */}
+              <JoditEditor
+                ref={editor}
+                value={content}
+                onChange={(newContent) => contextUpdate(newContent)}
               />
             </FormGroup>
 
