@@ -14,6 +14,7 @@ import {
 } from "reactstrap";
 import { Post, PostCategory } from "../../service/PostCategory";
 import { toast } from "react-toastify";
+import { currentUser } from "../../auth/UserDataAuth";
 
 function AddPost() {
   //store the post data
@@ -81,6 +82,10 @@ function AddPost() {
       return;
     }
 
+    //adding a new field in post data
+    newPost["userId"] = currentUser().id;
+    console.log(newPost);
+
     //calling api using service(axios)
     Post(newPost)
       .then((response) => {
@@ -137,7 +142,6 @@ function AddPost() {
                 value={newPost.categoryId}
                 name="categoryId"
                 onChange={(e) => dataHandleChange(e)}
-                defaultValue={-1}
               >
                 <option disabled value={-1}>
                   --select category--

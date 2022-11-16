@@ -1,9 +1,14 @@
-import { myAxios } from "./helper";
+import { myAxios, privateAxios } from "./helper";
 
 export const PostCategory = () => {
   return myAxios.get("/category").then((response) => response.data);
 };
 
 export const Post = (postData) => {
-  return myAxios.post("/post", postData).then((response) => response.data);
+  return privateAxios
+    .post(
+      `/user/${postData.userId}/category/${postData.categoryId}/post`,
+      postData
+    )
+    .then((response) => response.data);
 };
