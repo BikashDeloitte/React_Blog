@@ -137,7 +137,11 @@ function AddPost() {
                 value={newPost.categoryId}
                 name="categoryId"
                 onChange={(e) => dataHandleChange(e)}
+                defaultValue={-1}
               >
+                <option disabled value={-1}>
+                  --select category--
+                </option>
                 {
                   //using map of javascript to display dynamic categories
                   categories.map((category) => {
