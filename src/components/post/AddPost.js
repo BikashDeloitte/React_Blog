@@ -12,7 +12,7 @@ import {
   Container,
   Button,
 } from "reactstrap";
-import { Post, PostCategory } from "../../service/PostCategory";
+import { CreatePost, PostCategory } from "../../service/PostCategory";
 import { toast } from "react-toastify";
 import { currentUser } from "../../auth/UserDataAuth";
 
@@ -87,7 +87,7 @@ function AddPost() {
     console.log(newPost);
 
     //calling api using service(axios)
-    Post(newPost)
+    CreatePost(newPost)
       .then((response) => {
         resetData();
         toast.success("Your post have been created");
