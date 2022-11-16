@@ -16,9 +16,9 @@ function MainContainer() {
   const [isLogin, setIsLogin] = useState(false);
   const [posts, setPosts] = useState([]);
   const [user, setUser] = useState({});
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(-1);
 
-  const toggle = () => setIsOpen(!isOpen);
+  const toggle = (id) => setIsOpen(id);
 
   //getting all post asynchronously
   async function getAllPostAysnc() {
@@ -44,6 +44,7 @@ function MainContainer() {
       {console.log("p", posts)}
 
       {posts.map((post) => {
+        console.log("open -> ", isOpen);
         return (
           <Container key={post.id}>
             <Card>
@@ -51,7 +52,7 @@ function MainContainer() {
 
               <CardBody>
                 <CardTitle tag="h2">{post.title}</CardTitle>
-                <Collapse isOpen={isOpen}>
+                <Collapse isOpen={isOpen === post.id ? true : false}>
                   {/*  dangerouslySetInnerHTML for convert string html content to real html*/}
                   <CardText
                     tag="h5"
@@ -61,7 +62,7 @@ function MainContainer() {
 
                 <Button
                   color="primary"
-                  onClick={toggle}
+                  onClick={() => toggle(post.id)}
                   style={{ marginBottom: "1rem" }}
                 >
                   read more
