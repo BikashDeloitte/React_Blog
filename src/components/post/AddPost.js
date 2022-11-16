@@ -12,14 +12,15 @@ import {
   Container,
   Button,
 } from "reactstrap";
-import { PostCategory } from "../../service/PostCategory";
+import { Post, PostCategory } from "../../service/PostCategory";
+import { toast } from "react-toastify";
 
 function AddPost() {
   //store the post data
   const [newPost, setNewPost] = useState({
     title: "",
     content: "",
-    category: "",
+    categoryId: -1,
   });
 
   //store dynamic category (at starting it is a empty array)
@@ -28,20 +29,23 @@ function AddPost() {
   //for rich text (JoditEditor)
   const editor = useRef(null);
 
-  //store the rich text data
-  const [content, setContent] = useState("");
-
   //rest the input data in post
   const resetData = () => {
     setNewPost({
       title: "",
       content: "",
-      category: "",
+      categoryId: -1,
     });
   };
 
-  const contextUpdate = (context) => {
-    setContent(context);
+  //store post data to state from form (binding data)
+  const dataHandleChange = (event) => {
+    setNewPost({ ...newPost, [event.target.name]: event.target.value });
+  };
+
+  //post content with rich text (update)
+  const contextUpdate = (newContent) => {
+    setNewPost({ ...newPost, content: newContent });
   };
 
   //get dynamic post category (empty [] mean call once at starting)
@@ -56,6 +60,39 @@ function AddPost() {
       });
   }, []);
 
+  useEffect(() => {
+    console.log(newPost);
+  });
+
+  const createPost = () => {
+    console.log("submite", newPost);
+
+    //input checking
+    if (newPost.title.trim() === "") {
+      toast.warning("Title can't be empty");
+      return;
+    }
+    if (newPost.content.trim() === "") {
+      toast.warning("Content can't be empty");
+      return;
+    }
+    if (newPost.categoryId === null || newPost.categoryId == -1) {
+      toast.warning("Please select the category");
+      return;
+    }
+
+    //calling api using service(axios)
+    Post(newPost)
+      .then((response) => {
+        resetData();
+        toast.success("Your post have been created");
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error("something went wrong");
+      });
+  };
+
   return (
     <div className="wrapper">
       <Card className="shadow">
@@ -68,7 +105,14 @@ function AddPost() {
             {/* post title */}
             <FormGroup>
               <Label for="title">Post Title</Label>
-              <Input id="title" type="text" placeholder="enter post tilte" />
+              <Input
+                id="title"
+                type="text"
+                name="title"
+                value={newPost.title}
+                placeholder="enter post tilte"
+                onChange={(e) => dataHandleChange(e)}
+              />
             </FormGroup>
 
             {/* post cotent */}
@@ -78,15 +122,22 @@ function AddPost() {
               {/* joditEditor libary is use for in rich text */}
               <JoditEditor
                 ref={editor}
-                value={content}
+                value={newPost.content}
+                // config={config}
                 onChange={(newContent) => contextUpdate(newContent)}
               />
             </FormGroup>
 
             {/* post category */}
             <FormGroup>
-              <Label for="category">Post Category</Label>
-              <Input id="category" type="select" name="select">
+              <Label for="categoryId">Post Category</Label>
+              <Input
+                id="categoryId"
+                type="select"
+                value={newPost.categoryId}
+                name="categoryId"
+                onChange={(e) => dataHandleChange(e)}
+              >
                 {
                   //using map of javascript to display dynamic categories
                   categories.map((category) => {
@@ -101,8 +152,11 @@ function AddPost() {
             </FormGroup>
 
             <Container className="text-center">
-              <Button color="primary">Create Post</Button>
+              <Button color="primary" onClick={() => createPost()}>
+                Create Post
+              </Button>
               <Button
+                type="reset"
                 className="ms-2"
                 color="danger"
                 onClick={() => resetData()}
