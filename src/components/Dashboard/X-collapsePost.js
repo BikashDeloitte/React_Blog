@@ -14,7 +14,7 @@ import {
 import { currentUser, isLoggedIn } from "../../auth/UserDataAuth";
 import { getAllPost } from "../../service/PostCategory";
 
-function MainContainer() {
+function CollapsePost() {
   const [isLogin, setIsLogin] = useState(false);
   const [posts, setPosts] = useState({
     allPost: [],
@@ -25,6 +25,15 @@ function MainContainer() {
     latePage: false,
   });
   const [user, setUser] = useState({});
+  const [isOpen, setIsOpen] = useState(-1);
+
+  const toggle = (id) => {
+    if (isOpen === id) {
+      setIsOpen(-1);
+      return;
+    }
+    setIsOpen(id);
+  };
 
   //getting all post asynchronously
   async function getAllPostAysnc(pageNumber = 0, pageSize = 5) {
@@ -63,15 +72,24 @@ function MainContainer() {
               <CardBody>
                 <CardTitle tag="h2">{blog.title}</CardTitle>
 
-                <CardText
-                  style={{ margin: "30px" }}
-                  tag="h5"
-                  dangerouslySetInnerHTML={{
-                    __html: blog.content.substring(0, 2000),
-                  }}
-                />
+                <Collapse isOpen={isOpen === blog.id ? true : false}>
+                  {/*  dangerouslySetInnerHTML for convert string html content to real html
+                  and we are use slice to show once first 100 word (for read more button)
+                  */}
+                  <CardText
+                    style={{ margin: "30px" }}
+                    tag="h5"
+                    dangerouslySetInnerHTML={{
+                      __html: blog.content,
+                    }}
+                  />
+                </Collapse>
 
-                <Button color="secondary" className="my-2 ms-2">
+                <Button
+                  color="secondary"
+                  onClick={() => toggle(blog.id)}
+                  className="my-2 ms-2"
+                >
                   read more
                 </Button>
               </CardBody>
@@ -125,4 +143,4 @@ function MainContainer() {
   );
 }
 
-export default MainContainer;
+export default CollapsePost;

@@ -65,7 +65,7 @@ function AddPost() {
     console.log(newPost);
   });
 
-  const createPost = () => {
+  const createNewPost = () => {
     console.log("submite", newPost);
 
     //input checking
@@ -160,7 +160,7 @@ function AddPost() {
             </FormGroup>
 
             <Container className="text-center">
-              <Button color="primary" onClick={() => createPost()}>
+              <Button color="primary" onClick={() => createNewPost()}>
                 Create Post
               </Button>
               <Button
