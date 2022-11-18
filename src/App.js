@@ -10,7 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import PrivateRoute from "./PrivateRouto";
 import UserDashboard from "./components/dashboard/UserDashboard";
-import Post from "./components/post/Post";
+import PostPage from "./components/post/PostPage";
 
 function App() {
   return (
@@ -25,7 +25,7 @@ function App() {
         <Route path="/home" element={<MainContainer />} />
         <Route path="/login" element={<LogIn />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/post" element={<Post />} />
+        <Route path="/post/:postId" element={<PostPage />} />
         <Route path="/user" element={<PrivateRoute />}>
           <Route path="dashboard" element={<UserDashboard />} />
         </Route>

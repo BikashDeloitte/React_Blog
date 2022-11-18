@@ -1,11 +1,10 @@
 import { useEffect, React, useState } from "react";
+import { Link } from "react-router-dom";
 import {
-  Button,
   Card,
   CardBody,
   CardText,
   CardTitle,
-  Collapse,
   Container,
   Pagination,
   PaginationItem,
@@ -71,9 +70,12 @@ function MainContainer() {
                   }}
                 />
 
-                <Button color="secondary" className="my-2 ms-2">
+                <Link
+                  to={"/post/" + blog.id}
+                  className="btn btn-secondary my-2 ms-2"
+                >
                   read more
-                </Button>
+                </Link>
               </CardBody>
             </Card>
           </Container>

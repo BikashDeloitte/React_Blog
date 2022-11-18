@@ -17,8 +17,12 @@ export const CreatePost = (postData) => {
 
 //getting all post asynchronously
 export const getAllPost = async (userId, pageNumber, pageSize) => {
-  console.log(pageNumber, " ", pageSize);
-  return await privateAxios
-    .get(`/user/${userId}/post?pageNumber=${pageNumber}&pageSize=${pageSize}`)
+  return await myAxios
+    .get(`/post?pageNumber=${pageNumber}&pageSize=${pageSize}`)
     .then((response) => response.data);
+};
+
+//get post by id
+export const getPostById = async (postId) => {
+  return await myAxios.get(`/post/${postId}`).then((response) => response.data);
 };
