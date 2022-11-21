@@ -11,6 +11,8 @@ import {
   Row,
 } from "reactstrap";
 import { getPostById } from "../../service/PostCategory";
+import AddComment from "./AddComment";
+import CommentComponent from "./CommentComponent";
 
 const PostPage = () => {
   //to get post id for url and {} in variable as it is store dynamically
@@ -64,6 +66,9 @@ const PostPage = () => {
           </Card>
         </Col>
       </Row>
+
+      <CommentComponent />
+      <AddComment />
     </Container>
   );
 };

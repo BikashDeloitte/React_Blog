@@ -52,7 +52,7 @@ function LogIn() {
   const onSumbitData = (event) => {
     //to prevent from sending empty data
     event.preventDefault();
-    console.log(loginData);
+    console.log("login data 0-0-0- > ", loginData);
 
     //validation of email and password
     if (loginData.email.trim() == "" || loginData.password.trim() == "") {

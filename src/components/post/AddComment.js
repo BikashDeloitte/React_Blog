@@ -1,0 +1,27 @@
+import { React, useEffect, useState } from "react";
+import { Button, Input } from "reactstrap";
+import { createComment } from "../../service/CommentService";
+
+const AddComment = () => {
+  const [comment, setComment] = useState({});
+
+  const onSubmit = () => {
+    console.log("hahahahahaahahhaha");
+    createComment(comment);
+  };
+
+  return (
+    <div>
+      <Input
+        type="textarea"
+        placeholder="Add comment ..."
+        onChange={(newComment) => setComment(newComment)}
+      />
+      <Button className="mt-2" onClick={() => onSubmit()}>
+        Submit
+      </Button>
+    </div>
+  );
+};
+
+export default AddComment;
