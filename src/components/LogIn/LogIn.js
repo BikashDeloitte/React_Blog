@@ -55,7 +55,7 @@ function LogIn() {
     console.log("login data 0-0-0- > ", loginData);
 
     //validation of email and password
-    if (loginData.email.trim() == "" || loginData.password.trim() == "") {
+    if (loginData.email.trim() === "" || loginData.password.trim() === "") {
       toast.error("Required email or password");
       return;
     }
@@ -72,10 +72,9 @@ function LogIn() {
         toast.success("login success");
       })
       .catch((error) => {
-        console.log("error --=> {0}", error);
-        if (error.response.data.status == 400) {
+        if (error.response.data.status === 400) {
           toast.error("password is wrong, please check");
-        } else if (error.response.data.status == 404) {
+        } else if (error.response.data.status === 404) {
           toast.error("Couldn't find email");
         } else {
           toast.error("something went wrong");
@@ -85,6 +84,8 @@ function LogIn() {
           errors: error,
           isError: true,
         });
+
+        console.log(error);
       });
   };
 

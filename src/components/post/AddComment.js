@@ -1,4 +1,4 @@
-import { React, useEffect, useState } from "react";
+import { React, useState } from "react";
 import { Button, Input } from "reactstrap";
 import { createComment } from "../../service/CommentService";
 

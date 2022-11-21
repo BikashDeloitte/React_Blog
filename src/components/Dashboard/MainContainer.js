@@ -85,10 +85,10 @@ function MainContainer() {
       {/* pagination */}
       <Container className="text-center mt-5">
         <Pagination>
-          <PaginationItem disabled={posts.pageNumber == 0 ? true : false}>
+          <PaginationItem disabled={posts.pageNumber === 0 ? true : false}>
             <PaginationLink first onClick={() => getAllPostAysnc(0)} />
           </PaginationItem>
-          <PaginationItem disabled={posts.pageNumber == 0 ? true : false}>
+          <PaginationItem disabled={posts.pageNumber === 0 ? true : false}>
             <PaginationLink
               previous
               onClick={() => getAllPostAysnc(posts.pageNumber - 1)}
@@ -99,7 +99,7 @@ function MainContainer() {
             return (
               <PaginationItem
                 key={index}
-                active={posts.pageNumber == index}
+                active={posts.pageNumber === index}
                 color="dark"
               >
                 <PaginationLink onClick={() => getAllPostAysnc(index)}>

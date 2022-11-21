@@ -1,4 +1,4 @@
-import { currentUser, isLoggedIn } from "../auth/UserDataAuth";
+import { currentUser } from "../auth/UserDataAuth";
 import { myAxios, privateAxios } from "./helper";
 
 //create comment on post
