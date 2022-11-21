@@ -2,12 +2,12 @@ import { React, useEffect, useState } from "react";
 import { Button, Input } from "reactstrap";
 import { createComment } from "../../service/CommentService";
 
-const AddComment = () => {
+const AddComment = (props) => {
   const [comment, setComment] = useState({});
 
   const onSubmit = () => {
-    console.log("hahahahahaahahhaha");
-    createComment(comment);
+    console.log("hahahahahaahahhaha", props.postId);
+    createComment(comment, props.postId);
   };
 
   return (

@@ -1,11 +1,11 @@
-import { currentUser } from "../auth/UserDataAuth";
+import { currentUser, isLoggedIn } from "../auth/UserDataAuth";
 import { myAxios, privateAxios } from "./helper";
 
 //create comment on post
-export const createComment = (comment, postId = 1, userId = 1) => {
+export const createComment = (comment, postId) => {
   console.log("good in", comment.target.value);
-  // const [user] = currentUser();
-  // console.log("comment user -- ", user);
+  const userId = currentUser()?.id;
+  console.log(userId);
 
   return privateAxios
     .post(

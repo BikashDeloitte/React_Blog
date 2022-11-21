@@ -68,7 +68,7 @@ const PostPage = () => {
       </Row>
 
       <CommentComponent />
-      <AddComment />
+      <AddComment postId={postId} />
     </Container>
   );
 };
