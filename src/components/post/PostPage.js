@@ -1,6 +1,8 @@
 import { useEffect, React, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import {
+  Button,
   Card,
   CardBody,
   CardImg,
@@ -8,26 +10,56 @@ import {
   CardTitle,
   Col,
   Container,
+  Input,
   Row,
 } from "reactstrap";
+import { isLoggedIn } from "../../auth/UserDataAuth";
+import {
+  createComment,
+  getCommentByPostBy,
+} from "../../service/CommentService";
 import { getPostById } from "../../service/PostCategory";
-import AddComment from "./AddComment";
-import CommentComponent from "./CommentComponent";
 
 const PostPage = () => {
   //to get post id for url and {} in variable as it is store dynamically
   const { postId } = useParams();
 
+  //store post content data
   const [post, setPost] = useState({});
+  //store particular post comment
+  const [comment, setComment] = useState([]);
 
+  const [addComment, setAddComment] = useState("");
+
+  //get post context through api
   const postData = async () => {
     const data = await getPostById(postId);
     setPost(data);
   };
 
+  //get all comment of particular post
+  const getPostComment = async (postId) => {
+    const data = await getCommentByPostBy(postId);
+    setComment(data);
+  };
+
+  //add comment to particular post
+  async function onSubmit() {
+    if (!isLoggedIn()) {
+      toast.warn("for comment please login");
+    }
+
+    const data = await createComment(addComment, postId);
+    console.log(data);
+    setComment([...comment, data]);
+  }
+
+  //trigger at load of this component
   useEffect(() => {
+    getPostComment(postId);
     postData();
   }, []);
+
   console.log("productDetails", post.userData?.firstName);
   return (
     <Container>
@@ -72,8 +104,33 @@ const PostPage = () => {
           Add Comment :
         </CardTitle>
         <CardBody>
-          <AddComment postId={postId} />
-          <CommentComponent postId={postId} />
+          {/* add comment */}
+          <div>
+            <Input
+              type="textarea"
+              placeholder="Add comment ..."
+              onChange={(newComment) => setAddComment(newComment)}
+            />
+            <Button className="mt-2" onClick={() => onSubmit()}>
+              Submit
+            </Button>
+          </div>
+
+          {/* show comment */}
+          <div>
+            {console.log("jhhhh", comment)}
+            <h4 className="mt-4">Comments ({comment.length})</h4>
+            {comment.map((c) => {
+              return (
+                <p key={c.id} className="mt-4">
+                  <strong>{c.userName}</strong>{" "}
+                  <small style={{ color: "grey" }}> {c.commentDate}</small>
+                  <br />
+                  <small>{c.comment}</small>
+                </p>
+              );
+            })}
+          </div>
         </CardBody>
       </Card>
     </Container>

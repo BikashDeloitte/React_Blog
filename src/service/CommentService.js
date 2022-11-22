@@ -3,9 +3,7 @@ import { myAxios, privateAxios } from "./helper";
 
 //create comment on post
 export const createComment = (comment, postId) => {
-  console.log("good in", comment.target.value);
   const userId = currentUser()?.id;
-  console.log(userId);
 
   return privateAxios
     .post(
