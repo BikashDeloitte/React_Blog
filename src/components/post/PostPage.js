@@ -67,8 +67,15 @@ const PostPage = () => {
         </Col>
       </Row>
 
-      <CommentComponent />
-      <AddComment postId={postId} />
+      <Card>
+        <CardTitle className="mx-3 mt-3" tag="h4">
+          Add Comment :
+        </CardTitle>
+        <CardBody>
+          <AddComment postId={postId} />
+          <CommentComponent postId={postId} />
+        </CardBody>
+      </Card>
     </Container>
   );
 };

@@ -15,8 +15,8 @@ export const createComment = (comment, postId) => {
 };
 
 //get all comment of particular post
-export const getCommentByPostBy = (postId) => {
-  return myAxios
+export const getCommentByPostBy = async (postId) => {
+  return await myAxios
     .get(`/comment?postId=${postId}`)
     .then((response) => response.data);
 };

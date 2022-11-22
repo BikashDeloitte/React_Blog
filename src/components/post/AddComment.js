@@ -1,12 +1,17 @@
 import { React, useState } from "react";
+import { toast } from "react-toastify";
 import { Button, Input } from "reactstrap";
+import { isLoggedIn } from "../../auth/UserDataAuth";
 import { createComment } from "../../service/CommentService";
 
 const AddComment = (props) => {
-  const [comment, setComment] = useState({});
+  const [comment, setComment] = useState("");
 
   const onSubmit = () => {
-    console.log("hahahahahaahahhaha", props.postId);
+    if (!isLoggedIn()) {
+      toast.warn("for comment please login");
+    }
+
     createComment(comment, props.postId);
   };
 
