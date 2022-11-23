@@ -6,9 +6,7 @@ export const createComment = (comment, postId) => {
   const userId = currentUser()?.id;
 
   return privateAxios
-    .post(
-      `/comment?postId=${postId}&userId=${userId}&comments=${comment.target.value}`
-    )
+    .post(`/comment?postId=${postId}&userId=${userId}&comments=${comment}`)
     .then((resposne) => resposne.data);
 };
 

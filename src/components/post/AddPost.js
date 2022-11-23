@@ -12,7 +12,11 @@ import {
   Container,
   Button,
 } from "reactstrap";
-import { CreatePost, PostCategory } from "../../service/PostCategory";
+import {
+  CreatePost,
+  createPostImage,
+  PostCategory,
+} from "../../service/PostCategory";
 import { toast } from "react-toastify";
 import { currentUser } from "../../auth/UserDataAuth";
 
@@ -23,6 +27,8 @@ function AddPost() {
     content: "",
     categoryId: -1,
   });
+
+  const [postImage, setPostImage] = useState(null);
 
   //store dynamic category (at starting it is a empty array)
   const [categories, setCategories] = useState([]);
@@ -37,6 +43,8 @@ function AddPost() {
       content: "",
       categoryId: -1,
     });
+
+    setPostImage([]);
   };
 
   //store post data to state from form (binding data)
@@ -87,8 +95,10 @@ function AddPost() {
     console.log(newPost);
 
     //calling api using service(axios)
-    CreatePost(newPost)
+    CreatePost(newPost, postImage)
       .then((response) => {
+        console.log("response of post ", response);
+        createPostImage(postImage, response.id);
         resetData();
         toast.success("Your post have been created");
       })
@@ -157,6 +167,18 @@ function AddPost() {
                   })
                 }
               </Input>
+
+              {/* post image */}
+              <FormGroup>
+                <Label for="postImage">Post Image</Label>
+                <Input
+                  type="file"
+                  onChange={(e) => {
+                    console.log(e.target.files[0]);
+                    setPostImage(e.target.files[0]);
+                  }}
+                />
+              </FormGroup>
             </FormGroup>
 
             <Container className="text-center">

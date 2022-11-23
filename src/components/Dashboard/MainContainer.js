@@ -27,7 +27,7 @@ function MainContainer() {
 
   //getting all post asynchronously
   async function getAllPostAysnc(pageNumber = 0, pageSize = 5) {
-    const data = await getAllPost(user.id, pageNumber, pageSize);
+    const data = await getAllPost(pageNumber, pageSize);
     setPosts({
       allPost: data.post,
       pageNumber: data.pageNumber,

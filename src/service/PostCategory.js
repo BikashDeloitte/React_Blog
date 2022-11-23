@@ -16,7 +16,7 @@ export const CreatePost = (postData) => {
 };
 
 //getting all post asynchronously
-export const getAllPost = async (userId, pageNumber, pageSize) => {
+export const getAllPost = async (pageNumber, pageSize) => {
   return await myAxios
     .get(`/post?pageNumber=${pageNumber}&pageSize=${pageSize}`)
     .then((response) => response.data);
@@ -25,4 +25,14 @@ export const getAllPost = async (userId, pageNumber, pageSize) => {
 //get post by id
 export const getPostById = async (postId) => {
   return await myAxios.get(`/post/${postId}`).then((response) => response.data);
+};
+
+export const createPostImage = (postImage, postId) => {
+  let formData = new FormData();
+  formData.append("postImage", postImage);
+  return privateAxios
+    .post(`/upload/${postId}`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+    .then((response) => response.data);
 };

@@ -29,7 +29,9 @@ const PostPage = () => {
   //store particular post comment
   const [comment, setComment] = useState([]);
 
-  const [addComment, setAddComment] = useState("");
+  const [addComment, setAddComment] = useState({
+    content: "",
+  });
 
   //get post context through api
   const postData = async () => {
@@ -43,16 +45,30 @@ const PostPage = () => {
     setComment(data);
   };
 
-  //add comment to particular post
+  /**
+   * adding comment only if user is login
+   * and we are adding the new comment to existing array of comment
+   */
   async function onSubmit() {
+    //login warning message
     if (!isLoggedIn()) {
       toast.warn("for comment please login");
     }
 
-    const data = await createComment(addComment, postId);
-    console.log(data);
+    //sending comment to database
+    const data = await createComment(addComment.content, postId);
+
+    //we are adding the new comment to existing array of comment
     setComment([...comment, data]);
+    restComment();
   }
+
+  //rest comment
+  const restComment = () => {
+    setAddComment({
+      content: "",
+    });
+  };
 
   //trigger at load of this component
   useEffect(() => {
@@ -60,12 +76,10 @@ const PostPage = () => {
     postData();
   }, []);
 
-  console.log("productDetails", post.userData?.firstName);
   return (
     <Container>
       <Row>
         <Col>
-          {console.log(post)}
           <p>
             <Link to="/home">home</Link> / <Link to="">{post.title}</Link>
           </p>
@@ -109,7 +123,10 @@ const PostPage = () => {
             <Input
               type="textarea"
               placeholder="Add comment ..."
-              onChange={(newComment) => setAddComment(newComment)}
+              onChange={(newComment) =>
+                setAddComment({ content: newComment.target.value })
+              }
+              value={addComment.content}
             />
             <Button className="mt-2" onClick={() => onSubmit()}>
               Submit
@@ -118,7 +135,6 @@ const PostPage = () => {
 
           {/* show comment */}
           <div>
-            {console.log("jhhhh", comment)}
             <h4 className="mt-4">Comments ({comment.length})</h4>
             {comment.map((c) => {
               return (
