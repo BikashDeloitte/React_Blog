@@ -27,7 +27,8 @@ export const getPostById = async (postId) => {
   return await myAxios.get(`/post/${postId}`).then((response) => response.data);
 };
 
-export const createPostImage = (postImage, postId) => {
+//upload post image
+export const uploadPostImage = (postImage, postId) => {
   let formData = new FormData();
   formData.append("postImage", postImage);
   return privateAxios

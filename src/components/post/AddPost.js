@@ -14,8 +14,8 @@ import {
 } from "reactstrap";
 import {
   CreatePost,
-  createPostImage,
   PostCategory,
+  uploadPostImage,
 } from "../../service/PostCategory";
 import { toast } from "react-toastify";
 import { currentUser } from "../../auth/UserDataAuth";
@@ -94,11 +94,13 @@ function AddPost() {
     newPost["userId"] = currentUser().id;
     console.log(newPost);
 
-    //calling api using service(axios)
+    //calling api using service(axios) to create post
     CreatePost(newPost, postImage)
       .then((response) => {
-        console.log("response of post ", response);
-        createPostImage(postImage, response.id);
+        //after post is create upload post image
+        uploadPostImage(postImage, response.id).catch((error) => {
+          toast.error("unable to upload post image");
+        });
         resetData();
         toast.success("Your post have been created");
       })

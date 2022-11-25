@@ -18,6 +18,7 @@ import {
   createComment,
   getCommentByPostBy,
 } from "../../service/CommentService";
+import { BASE_URL } from "../../service/helper";
 import { getPostById } from "../../service/PostCategory";
 
 const PostPage = () => {
@@ -28,6 +29,8 @@ const PostPage = () => {
   const [post, setPost] = useState({});
   //store particular post comment
   const [comment, setComment] = useState([]);
+  //link for image
+  const postImage = `${BASE_URL}/post/${postId}/image`;
 
   const [addComment, setAddComment] = useState({
     content: "",
@@ -98,7 +101,7 @@ const PostPage = () => {
               <div className=" text-center ">
                 <CardImg
                   alt="Sample"
-                  src="https://picsum.photos/300/200"
+                  src={postImage}
                   style={{ width: "50%" }}
                 />
               </div>
