@@ -11,12 +11,12 @@ export const privateAxios = axios.create({
   baseURL: BASE_URL,
 });
 
-//adding token to header of privateAxios
+//adding token to header of privateAxios basic Authorization
 privateAxios.interceptors.request.use(
   (config) => {
     const token = getToken();
     if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+      config.auth = { username: "Bikash", password: "mypassword" };
       return config;
     }
   },
